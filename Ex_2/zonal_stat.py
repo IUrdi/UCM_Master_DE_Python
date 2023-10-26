@@ -5,9 +5,12 @@ def read_data(fname: str, tipo: type) -> np.ndarray:
     """
     function that reads a text file named fname and returns a ndarray with the values found in it
     :param fname: str
+       name of file
     :param tipo: type
+       expected data type of the values in the file
     :return: ndarray
        a ndarray of tipo type values
+    :raise FileNotFoundError: if fname file is not found
     Examples:
     --------
     >>> read_data('./datos/zonas.txt',tipo=np.int_)
@@ -44,6 +47,7 @@ def set_of_areas(zonas: np.ndarray)-> set[int]:
     :param zonas: ndarray
     :return: set
        a set of integers
+    :raise TypeError: if dtype of ndarray is not integer
     Examples:
     --------
     >>> set_of_areas(np.arange(10).reshape(5, 2))
@@ -69,8 +73,10 @@ def mean_areas(zonas: np.ndarray,valores: np.ndarray)-> np.ndarray:
     function that returns the mean values of the different areas
     :param zonas: ndarray
     :param valores: ndarray
-    :return: set
-       a set of integers
+    :return: ndarray
+       a ndarray of floats with mean values for each zone
+    :raise TypeError: if dtype of zonas ndarray is not integer
+    :raise IndexError: if dimensions of zonas and valores do not match
     Examples:
     --------
     >>> mean_areas(np.array([[1, 1, 1, 1, 3, 3],[1, 1, 1, 1, 3, 1]]),np.array([[5., 3., 4., 4., 4., 2.],[2., 1., 4., 2., 6., 3.]]))
