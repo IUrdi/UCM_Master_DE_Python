@@ -3,7 +3,11 @@ import numpy as np
 
 def read_data(fname: str, tipo: type) -> np.ndarray:
     """
-
+    function that reads a text file named fname and returns a ndarray with the values found in it
+    :param fname: str
+    :param tipo: type
+    :return: ndarray
+       a ndarray of tipo type values
     Examples:
     --------
     >>> read_data('./datos/zonas.txt',tipo=np.int_)
@@ -23,7 +27,7 @@ def read_data(fname: str, tipo: type) -> np.ndarray:
     >>> read_data('inexistentfile.txt',tipo=np.int_)
     Traceback (most recent call last):
         ...
-    FileNotFoundError: Input file inexistentfile.txt not found in local directory
+    FileNotFoundError: Input file inexistentfile.txt not found
     """
     
     # Escribe aquí tu código
@@ -31,12 +35,15 @@ def read_data(fname: str, tipo: type) -> np.ndarray:
     try:
         return np.loadtxt(fname,dtype=tipo)
     except FileNotFoundError:
-        raise FileNotFoundError(f'Input file {fname} not found in local directory')
+        raise FileNotFoundError(f'Input file {fname} not found')
         
 
 def set_of_areas(zonas: np.ndarray)-> set[int]:
     """
-
+    function that returns a set with unique/distinct values found in a ndarray of integers
+    :param zonas: ndarray
+    :return: set
+       a set of integers
     Examples:
     --------
     >>> set_of_areas(np.arange(10).reshape(5, 2))
@@ -59,21 +66,28 @@ def set_of_areas(zonas: np.ndarray)-> set[int]:
 
 def mean_areas(zonas: np.ndarray,valores: np.ndarray)-> np.ndarray:
     """
-
+    function that returns the mean values of the different areas
+    :param zonas: ndarray
+    :param valores: ndarray
+    :return: set
+       a set of integers
     Examples:
     --------
     >>> mean_areas(np.array([[1, 1, 1, 1, 3, 3],[1, 1, 1, 1, 3, 1]]),np.array([[5., 3., 4., 4., 4., 2.],[2., 1., 4., 2., 6., 3.]]))
     array([[3.1, 3.1, 3.1, 3.1, 4. , 4. ],
            [3.1, 3.1, 3.1, 3.1, 4. , 3.1]])
+    >>> mean_areas(np.array([[1.5, 1.9, 1, 1, 3, 3],[1, 1, 1, 1, 3, 1]]),np.array([[5., 3., 4., 4., 4., 2.],[2., 1., 4., 2., 6., 3.]]))
+    Traceback (most recent call last):
+        ...
+    TypeError: The elements type must be int, not float64
     >>> mean_areas(np.array([[2,3], [4,5]]), np.array([[1,2,3], [4,5,6]]))  # dimensiones distintas
     Traceback (most recent call last):
         ...
     IndexError: Shape of zonas and valores must be the same. zonas: (2, 2) != valores: (2, 3)
     """
-
-    '''zonas=read_data('./datos/zonas.txt',tipo=np.int_)
-    valores=read_data('./datos/valores.txt',tipo=np.float_)'''
     # Check input array dimensions
+    if zonas.dtype!='int':
+        raise TypeError("The elements type must be int, not {}".format(zonas.dtype))
     if zonas.shape != valores.shape:
         raise IndexError(f'Shape of zonas and valores must be the same. zonas: {zonas.shape} != valores: {valores.shape}')
     conjunto=set(zonas.flatten())
@@ -82,9 +96,7 @@ def mean_areas(zonas: np.ndarray,valores: np.ndarray)-> np.ndarray:
         mask = (zonas==zona)
         resMean[mask]=valores[mask].mean().round(1)
     return resMean
-    # Escribe aquí el código de la función mean_areas
-    # No olvides documentar la función y escribir las anotaciones de tipos
-    # Añade más ejemplos para doctest
+
 
 
 
